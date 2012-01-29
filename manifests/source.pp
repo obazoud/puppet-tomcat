@@ -27,24 +27,24 @@ class tomcat::source inherits tomcat::base {
 
   include tomcat::params
 
-  case $operatingsystem {
-    RedHat: {
-      package { ["log4j", "jakarta-commons-logging"]: ensure => present }
-    }
-    Debian,Ubuntu: {
-      package { ["liblog4j1.2-java", "libcommons-logging-java"]: ensure => present }
-    }
-  }
+#  case $operatingsystem {
+#    RedHat: {
+#      package { ["log4j", "jakarta-commons-logging"]: ensure => present }
+#    }
+#    Debian,Ubuntu: {
+#      package { ["liblog4j1.2-java", "libcommons-logging-java"]: ensure => present }
+#    }
+#  }
 
   $tomcat_home = "/opt/apache-tomcat-${tomcat::params::version}"
 
   if $tomcat::params::maj_version == "6" {
     # install extra tomcat juli adapters, used to configure logging.
-    include tomcat::juli
+#    include tomcat::juli
   }
 
   # link logging libraries from java
-  include tomcat::logging
+#  include tomcat::logging
 
   $baseurl = $tomcat::params::maj_version ? {
     "5.5" => "${tomcat::params::mirror}/tomcat-5/v${tomcat::params::version}/bin",
@@ -64,7 +64,7 @@ class tomcat::source inherits tomcat::base {
     ensure  => link,
     target  => $tomcat_home,
     require => Common::Archive["apache-tomcat-${tomcat::params::version}"],
-    before  => [File["commons-logging.jar"], File["log4j.jar"], File["log4j.properties"]],
+#    before  => [File["commons-logging.jar"], File["log4j.jar"], File["log4j.properties"]],
   }
 
   file { $tomcat_home:
