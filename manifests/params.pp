@@ -1,7 +1,6 @@
 class tomcat::params {
 
   $default_source_release = "6.0.26"
-  $default_source_release_v55 = "5.5.27"
 
   $instance_basedir = $tomcat_instance_basedir ? {
     ""      => "/srv/tomcat",
@@ -24,32 +23,11 @@ class tomcat::params {
       if versioncmp($tomcat_version, '6.0.0') >= 0 {
         $maj_version = "6"
       } else {
-        if versioncmp($tomcat_version, '5.5.0') >= 0 {
-          $maj_version = "5.5"
-        } else {
-          fail "only versions >= 5.5 or >= 6.0 are supported !"
-        }
+          fail "only versions >= 6.0 are supported !"
       }
     }
   } else {
-    $type = "package"
-    if $tomcat_version { notify {"\$tomcat_version is not useful when using distribution package!":} }
-    $maj_version = $operatingsystem ? {
-      "Debian" => $lsbdistcodename ? {
-        /lenny|squeeze/ => "6",
-      },
-      "Redhat" => $lsbdistcodename ? {
-        "Tikanga"  => "5.5",
-        "Santiago" => "6",
-      }
-    }
-
-    # it would be better to set the distribution tomcat-version!
-    $version = $maj_version ? {
-      "5.5" => $default_source_release_v55,
-      "6"   => $default_source_release,
-    }
-
+    fail "only Tomcat::source is supported !"
   }
 
   if $tomcat_debug {
