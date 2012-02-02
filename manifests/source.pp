@@ -37,14 +37,14 @@ class tomcat::source inherits tomcat::base {
     target      => "${tomcat::params::home_basedir}",
   }
 
-  file {"${tomcat::params::home_link}":
-    ensure  => link,
-    target  => "${tomcat_home}",
+  file { "${tomcat::params::home_tomcat_basedir}":
+    ensure  => directory,
     require => Common::Archive["apache-tomcat-${tomcat::params::version}"],
   }
 
-  file { "${tomcat_home}":
-    ensure  => directory,
+  file {"${tomcat::params::home_tomcat_link}":
+    ensure  => link,
+    target  => "${tomcat::params::home_tomcat_basedir}",
     require => Common::Archive["apache-tomcat-${tomcat::params::version}"],
   }
 
