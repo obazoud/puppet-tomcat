@@ -34,4 +34,12 @@ class tomcat::params {
     notify{"type=${type},maj_version=${maj_version},version=${version}":}
   }
 
+  $home_basedir = $tomcat_home_basedir ? {
+    ""      => "/opt",
+    default => $tomcat_home_basedir,
+  }
+
+  $home_tomcat_basedir = $home_basedir + "/apache-tomcat-${tomcat::params::version}"
+  $home_tomcat_link = $home_basedir + "/apache-tomcat"
+
 }
