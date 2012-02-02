@@ -31,7 +31,7 @@ class tomcat::source inherits tomcat::base {
   $tomcaturl = "${baseurl}/apache-tomcat-${tomcat::params::version}.tar.gz"
 
   common::archive{ "apache-tomcat-${tomcat::params::version}":
-    url         => $tomcaturl,
+    url         => "${tomcaturl}",
     digest_url  => "${tomcaturl}.md5",
     digest_type => "md5",
     target      => "${tomcat::params::home_basedir}",
@@ -39,11 +39,11 @@ class tomcat::source inherits tomcat::base {
 
   file {"${tomcat::params::home_link}":
     ensure  => link,
-    target  => "$tomcat_home",
+    target  => "${tomcat_home}",
     require => Common::Archive["apache-tomcat-${tomcat::params::version}"],
   }
 
-  file { $tomcat_home:
+  file { "${tomcat_home}":
     ensure  => directory,
     require => Common::Archive["apache-tomcat-${tomcat::params::version}"],
   }
