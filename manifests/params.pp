@@ -39,7 +39,7 @@ class tomcat::params {
     default => $tomcat_home_basedir,
   }
 
-  $home_tomcat_basedir = $home_basedir + "/apache-tomcat-${tomcat::params::version}"
-  $home_tomcat_link = $home_basedir + "/apache-tomcat"
+  $home_tomcat_basedir = "${home_basedir}/apache-tomcat-${tomcat::params::version}"
+  $home_tomcat_link = "${home_basedir}/apache-tomcat"
 
 }
